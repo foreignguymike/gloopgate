@@ -1,0 +1,9 @@
+gloopgate.png
+size:16,16
+repeat:none
+pixel
+bounds:12,13,1,1
+slimefill
+bounds:2,2,6,4
+slimeoutline
+bounds:2,8,8,6
