@@ -2,10 +2,12 @@ package com.distraction.gloopgate.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
 import com.distraction.gloopgate.LevelData;
 import com.distraction.gloopgate.SlimeSpawner;
+import com.distraction.gloopgate.entity.Background;
 import com.distraction.gloopgate.entity.Counter;
 import com.distraction.gloopgate.entity.Slime;
 import com.distraction.gloopgate.entity.Valid;
@@ -25,6 +27,8 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
     private final Valid valid;
     private final Counter counter;
 
+    private final Background bg;
+
     public PlayScreen(Context context, int level) {
         super(context);
 
@@ -32,10 +36,12 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
         slimes = new ArrayList<>();
         for (int i = 0; i < MAX_LANES; i++) slimes.add(new ArrayList<>());
-        slimeSpawner = new SlimeSpawner(this, MAX_LANES, levelData.slimeInterval, levelData.slimeBias, levelData.biasAmount);
+        slimeSpawner = new SlimeSpawner(this, MAX_LANES, levelData.slimeInterval, levelData.slimeBias, levelData.biasAmount, levelData.slimeCount);
 
         valid = new Valid(context, levelData.validType, levelData.slimeTypes);
         counter = new Counter(context);
+
+        bg = new Background(context);
     }
 
     @Override
@@ -65,6 +71,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
         valid.update(dt);
         counter.update(dt);
+        bg.update(dt);
     }
 
     @Override
@@ -72,12 +79,18 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         sb.begin();
 
         sb.setProjectionMatrix(cam.combined);
-        sb.setColor(Constants.BG);
+        sb.setColor(Constants.GRASS);
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
+        sb.setColor(Constants.SKY);
+        sb.draw(pixel, 0, Constants.HEIGHT / 2f, Constants.WIDTH, Constants.HEIGHT / 2f);
+
+        bg.render(sb);
 
         for (List<Slime> lane : slimes) {
             for (Slime slime : lane) slime.render(sb);
         }
+
+        bg.renderForeground(sb);
 
         valid.render(sb);
         counter.render(sb);

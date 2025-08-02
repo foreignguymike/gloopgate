@@ -26,8 +26,11 @@ public class SlimeSpawner {
     private final int biasAmount;
     private final int[] weights;
     private final int totalWeight;
+    private final int totalSlimes;
 
-    public SlimeSpawner(SpawnListener listener, int maxLanes, float interval, List<Slime.Type> bias, int biasAmount) {
+    private int spawnCount;
+
+    public SlimeSpawner(SpawnListener listener, int maxLanes, float interval, List<Slime.Type> bias, int biasAmount, int totalSlimes) {
         this.listener = listener;
         this.maxLanes = maxLanes;
         this.interval = interval;
@@ -38,6 +41,8 @@ public class SlimeSpawner {
         this.biasAmount = biasAmount;
         weights = convertToWeights(bias);
         totalWeight = maxTypes - bias.size() + bias.size() * biasAmount;
+
+        this.totalSlimes = totalSlimes;
     }
 
     public void update(float dt) {
@@ -49,11 +54,17 @@ public class SlimeSpawner {
         }
     }
 
+    public boolean isDone() {
+        return spawnCount >= totalSlimes;
+    }
+
     private void spawn() {
+        if (spawnCount >= totalSlimes) return;
         int nextLane = getNextLane();
         queue.offer(nextLane);
         Slime.Type type = getNextType();
         listener.onSpawn(type, nextLane);
+        spawnCount++;
     }
 
     private int getNextLane() {
