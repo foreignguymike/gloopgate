@@ -42,7 +42,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
     private State state = State.READY;
 
     private int validSlimeCount;
-    private int slimeCount;
+    private int currentSlimesOnScreen;
 
     public PlayScreen(Context context, LevelData.Difficulty difficulty, int level) {
         super(context);
@@ -65,35 +65,43 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
         bg = new GameBackground(context);
 
-        message = new Message(context, new String[] { "Day " + level });
+        message = new Message(context, new String[]{"Day " + level});
+    }
+
+    private void end() {
+        ignoreInput = true;
+        context.addScore(20 - Math.abs(counter.count - validSlimeCount));
+        out = new Transition(
+            context,
+            Transition.Type.CHECKERED_OUT,
+            0.5f,
+            () -> {
+                if (level < 5) context.sm.replace(new PlayScreen(context, difficulty, level + 1));
+                else context.sm.replace(new ResultScreen(context, difficulty, context.score));
+            }
+        );
+        out.start();
     }
 
     @Override
     public void onSpawn(Slime.Type type, int lane) {
         int y = 44 - lane * 4;
         slimes.get(lane).add(new Slime(context, type, y, levelData.speed));
-        slimeCount++;
+        currentSlimesOnScreen++;
     }
 
     @Override
     public void input() {
         if (ignoreInput) return;
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             if (state == State.READY) {
                 if (message != null) message = null;
                 state = State.GO;
             } else if (state == State.GO) {
                 counter.count();
             } else if (state == State.END) {
-                ignoreInput = true;
-                out = new Transition(
-                    context,
-                    Transition.Type.CHECKERED_OUT,
-                    0.5f,
-                    () -> context.sm.replace(new PlayScreen(context, difficulty, level + 1))
-                );
-                out.start();
+                end();
             }
         }
     }
@@ -114,15 +122,15 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
                 if (slime.remove) {
                     Slime removedSlime = lane.remove(i--);
                     if (valid.isValid(removedSlime.type)) validSlimeCount++;
-                    slimeCount--;
+                    currentSlimesOnScreen--;
                 }
             }
         }
 
-        if (state != State.END && slimeCount == 0 && slimeSpawner.isDone()) {
+        if (state != State.END && currentSlimesOnScreen == 0 && slimeSpawner.isDone()) {
             int diff = validSlimeCount - counter.count;
             String diffType = diff < 0 ? " extra" : " missed";
-            message = new Message(context, diff == 0 ? new String[] { "PERFECT!!" } : new String[] {Math.abs(diff) + diffType, ":(" });
+            message = new Message(context, diff == 0 ? new String[]{"PERFECT!!"} : new String[]{Math.abs(diff) + diffType, ":("});
             state = State.END;
         }
 

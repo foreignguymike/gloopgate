@@ -18,6 +18,8 @@ public class Context {
     public ScreenManager sm;
     public SpriteBatch sb;
 
+    public int score = 100;
+
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
@@ -62,6 +64,14 @@ public class Context {
         BitmapFont scaledFont = new BitmapFont(originalFont.getData().getFontFile(), originalFont.getRegion(), false);
         scaledFont.getData().setScale(scale);
         return scaledFont;
+    }
+
+    public void addScore(int score) {
+        this.score += score;
+    }
+
+    public void resetScore() {
+        score = 0;
     }
 
     public void dispose() {

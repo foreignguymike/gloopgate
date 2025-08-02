@@ -9,10 +9,15 @@ import java.util.List;
 public class LevelData {
 
     public enum Difficulty {
-        NORMAL,
-        HARD,
-        WEIRD
+        NORMAL("Normal"),
+        HARD("Hard"),
+        WEIRD("Weird")
         ;
+
+        public final String text;
+        Difficulty(String text) {
+            this.text = text;
+        }
 
         public static Difficulty from(int value) {
             if (value == 0) return NORMAL;
@@ -75,7 +80,7 @@ public class LevelData {
                 slimeCount = 25;
             } else if (level == 3) {
                 validType = Valid.Type.INVALID;
-                slimeTypes = Slime.Type.random(3);
+                slimeTypes = Slime.Type.random(2);
                 slimeInterval = 0.6f;
                 slimeBias = new ArrayList<>();
                 biasAmount = 1;
@@ -91,7 +96,7 @@ public class LevelData {
                 slimeCount = 30;
             } else {
                 validType = Valid.Type.INVALID;
-                slimeTypes = Slime.Type.random(4);
+                slimeTypes = Slime.Type.random(2);
                 slimeInterval = 0.4f;
                 slimeBias = new ArrayList<>();
                 biasAmount = 1;
@@ -125,12 +130,12 @@ public class LevelData {
                 slimeCount = 30;
             } else if (level == 4) {
                 validType = Valid.Type.VALID;
-                slimeTypes = Slime.Type.random(3);
+                slimeTypes = Slime.Type.random(4);
                 slimeInterval = 0.4f;
                 slimeBias = slimeTypes;
                 biasAmount = 2;
                 speed = 23;
-                slimeCount = 35;
+                slimeCount = 40;
             } else {
                 validType = Valid.Type.INVALID;
                 slimeTypes = Slime.Type.random(3);

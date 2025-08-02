@@ -65,6 +65,7 @@ public class TitleScreen extends Screen {
         font.setColor(Constants.BLACK);
 
         slimeBg = new RepeatingBackground(context.getImage("slimebg"));
+        context.resetScore();
     }
 
     private void goToDifficulty() {
@@ -171,9 +172,9 @@ public class TitleScreen extends Screen {
 
         if (state == State.DIFFICULTY || state == State.FROM_DIFFICULTY) {
             font.draw(sb, "Difficulty", 10, difficultyTitley.value);
-            font.draw(sb, "Normal", 20, difficultyy.value + 30);
-            font.draw(sb, "Hard", 20, difficultyy.value + 20);
-            font.draw(sb, "Weird", 20, difficultyy.value + 10);
+            font.draw(sb, LevelData.Difficulty.NORMAL.text, 20, difficultyy.value + 30);
+            font.draw(sb, LevelData.Difficulty.HARD.text, 20, difficultyy.value + 20);
+            font.draw(sb, LevelData.Difficulty.WEIRD.text, 20, difficultyy.value + 10);
             if (!difficultyTitley.isActive() && !difficultyy.isActive()) {
                 sb.draw(arrow, 14, difficultyy.value + 25 - difficultySelection * 10);
             }

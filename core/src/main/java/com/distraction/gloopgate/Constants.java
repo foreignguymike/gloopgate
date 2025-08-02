@@ -55,6 +55,9 @@ public class Constants {
     public static final Color TITLE_BG = COLORS[17];
     public static final Color SLIME_BG = COLORS[22];
 
+    public static final Color RESULTS_BG = COLORS[30];
+    public static final Color RESULTS_SLIME_BG = COLORS[31];
+
     public static final Color LIGHT = COLORS[19];
     public static final Color DARK = COLORS[24];
     public static final Color RED = COLORS[26];
