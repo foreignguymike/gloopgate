@@ -1,7 +1,10 @@
 package com.distraction.gloopgate.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
+import com.distraction.gloopgate.entity.Counter;
 import com.distraction.gloopgate.entity.Slime;
 
 import java.util.ArrayList;
@@ -11,12 +14,15 @@ public class PlayScreen extends Screen {
 
     private float slimeInterval = 2;
     private final List<Slime> slimes;
+    private final Counter counter;
 
     public PlayScreen(Context context) {
         super(context);
 
         slimes = new ArrayList<>();
         slimes.add(new Slime(context, Slime.Type.random(), 30));
+
+        counter = new Counter(context);
     }
 
     private void addSlime() {
@@ -26,6 +32,8 @@ public class PlayScreen extends Screen {
     @Override
     public void input() {
         if (ignoreInput) return;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) counter.count();
     }
 
     @Override
@@ -42,7 +50,7 @@ public class PlayScreen extends Screen {
             if (slime.remove) slimes.remove(i--);
         }
 
-        System.out.println("slimes: " + slimes.size());
+        counter.update(dt);
     }
 
     @Override
@@ -54,6 +62,8 @@ public class PlayScreen extends Screen {
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
 
         for (Slime slime : slimes) slime.render(sb);
+
+        counter.render(sb);
 
         sb.end();
     }

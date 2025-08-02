@@ -1,8 +1,12 @@
 gloopgate.png
-size:16,16
+size:32,32
 repeat:none
+counter
+bounds:2,16,23,14
+counterbutton
+bounds:12,6,4,8
 pixel
-bounds:12,13,1,1
+bounds:27,29,1,1
 slimefill
 bounds:2,2,6,4
 slimeoutline

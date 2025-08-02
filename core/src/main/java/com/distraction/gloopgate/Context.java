@@ -10,6 +10,7 @@ import com.distraction.gloopgate.screens.ScreenManager;
 public class Context {
 
     private static final String ATLAS = "gloopgate.atlas";
+    public static final String M5X716 = "fonts/m5x716.fnt";
 
     public AssetManager assets;
 
@@ -19,6 +20,7 @@ public class Context {
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
+        assets.load(M5X716, BitmapFont.class);
         assets.finishLoading();
 
         sb = new SpriteBatch();
@@ -34,6 +36,10 @@ public class Context {
 
     public TextureRegion getPixel() {
         return getImage("pixel");
+    }
+
+    public BitmapFont getFont() {
+        return getFont(M5X716, 1f);
     }
 
     public BitmapFont getFont(String name) {

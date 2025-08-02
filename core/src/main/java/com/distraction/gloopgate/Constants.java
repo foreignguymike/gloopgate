@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 @SuppressWarnings("all")
 public class Constants {
 
-    public static final String TITLE = "Gloop Gate";
+    public static final String TITLE = "Slime Time Tally";
     public static final int WIDTH = 64;
     public static final int HEIGHT = 64;
     public static final int SCALE = 10;
