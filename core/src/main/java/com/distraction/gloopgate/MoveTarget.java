@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.Interpolation;
 
 public class MoveTarget {
 
-    public final float duration;
-
     public final Interpolation interpolation = Interpolation.swing;
 
     public float value;
@@ -14,15 +12,22 @@ public class MoveTarget {
     private float target;
 
     private float time;
+    private float duration;
     private boolean active;
 
-    public MoveTarget(float duration) {
-        this.duration = duration;
+    public MoveTarget(float startValue) {
+        this.startValue = this.value = startValue;
     }
 
-    public void setTarget(float startValue, float target) {
-        this.startValue = startValue;
+    public void setTarget(float target) {
+        setTarget(target, 1f);
+    }
+
+    public void setTarget(float target, float duration) {
         this.target = target;
+        this.duration = duration;
+        this.startValue = value;
+        time = 0;
         active = true;
     }
 

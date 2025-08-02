@@ -33,6 +33,10 @@ public class Transition {
     private float time;
     private boolean done;
 
+    public Transition(Context context, Type type, float duration) {
+        this(context, type, null, null, null, duration, () -> {});
+    }
+
     public Transition(Context context, Type type, float duration, SimpleCallback callback) {
         this(context, type, null, null, null, duration, callback);
     }
@@ -71,6 +75,10 @@ public class Transition {
         done = false;
     }
 
+    private int snap(float f) {
+        return MathUtils.round(f);
+    }
+
     public void update(float dt) {
         if (!start) return;
         if (done) return;
@@ -95,27 +103,28 @@ public class Transition {
 
     public void render(SpriteBatch sb) {
         if (!start) return;
-        sb.setColor(Constants.DARK);
+        sb.setColor(Constants.BLACK);
+        float squareSize = Constants.WIDTH / 8f;
+        int numRows = MathUtils.ceil(Constants.HEIGHT / squareSize);
+        int numCols = MathUtils.ceil(Constants.WIDTH / squareSize);
         if (type == Type.CHECKERED_IN) {
-            float squareSize = Constants.WIDTH / 16f;
-            for (int row = 0; row < 9; row++) {
-                for (int col = 0; col < 16; col++) {
+            for (int row = 0; row < numRows; row++) {
+                for (int col = 0; col < numCols; col++) {
                     float size;
-                    float ttime = time - ((9 - row + col) / 40f) * (duration);
+                    float ttime = time - ((numRows - row + col) / 40f) * (duration);
                     size = squareSize - squareSize * (ttime / (duration / 3));
                     size = MathUtils.clamp(size, 0, squareSize);
-                    sb.draw(pixel, squareSize * 0.5f + squareSize * col - size / 2, squareSize * 0.5f + squareSize * row - size / 2, size, size);
+                    sb.draw(pixel, snap(squareSize * 0.5f + squareSize * col - size / 2), snap(squareSize * 0.5f + squareSize * row - size / 2), snap(size), snap(size));
                 }
             }
         } else if (type == Type.CHECKERED_OUT) {
-            float squareSize = Constants.WIDTH / 16f;
-            for (int row = 0; row < 9; row++) {
-                for (int col = 0; col < 16; col++) {
+            for (int row = 0; row < numRows; row++) {
+                for (int col = 0; col < numCols; col++) {
                     float size;
-                    float ttime = time - ((9 - row + col) / 40f) * (duration);
+                    float ttime = time - ((numRows - row + col) / 40f) * (duration);
                     size = squareSize * (ttime / (duration / 3));
                     size = MathUtils.clamp(size, 0, squareSize);
-                    sb.draw(pixel, squareSize * 0.5f + squareSize * col - size / 2, squareSize * 0.5f + squareSize * row - size / 2, size, size);
+                    sb.draw(pixel, snap(squareSize * 0.5f + squareSize * col - size / 2), snap(squareSize * 0.5f + squareSize * row - size / 2), snap(size), snap(size));
                 }
             }
         } else if (type == Type.FLASH_IN) {

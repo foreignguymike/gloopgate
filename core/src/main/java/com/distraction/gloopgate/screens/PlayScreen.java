@@ -25,6 +25,8 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
     private static final int MAX_LANES = 7;
 
+    private final LevelData.Difficulty difficulty;
+    private final int level;
     private final LevelData levelData;
 
     private final List<List<Slime>> slimes;
@@ -45,6 +47,13 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
     public PlayScreen(Context context, LevelData.Difficulty difficulty, int level) {
         super(context);
 
+        ignoreInput = true;
+        in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
+        in.start();
+        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
+
+        this.difficulty = difficulty;
+        this.level = level;
         levelData = LevelData.create(difficulty, level);
 
         slimes = new ArrayList<>();
@@ -76,12 +85,24 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
                 state = State.GO;
             } else if (state == State.GO) {
                 counter.count();
+            } else if (state == State.END) {
+                ignoreInput = true;
+                out = new Transition(
+                    context,
+                    Transition.Type.CHECKERED_OUT,
+                    0.5f,
+                    () -> context.sm.replace(new PlayScreen(context, difficulty, level + 1))
+                );
+                out.start();
             }
         }
     }
 
     @Override
     public void update(float dt) {
+        in.update(dt);
+        out.update(dt);
+
         if (state == State.READY) return;
 
         slimeSpawner.update(dt);
@@ -101,7 +122,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         if (state != State.END && slimeCount == 0 && slimeSpawner.isDone()) {
             int diff = validSlimeCount - counter.count;
             String diffType = diff < 0 ? " extra" : " missed";
-            message = new Message(context, diff == 0 ? new String[] { "PERFECT!" } : new String[] {Math.abs(diff) + diffType, ":(" });
+            message = new Message(context, diff == 0 ? new String[] { "PERFECT!!" } : new String[] {Math.abs(diff) + diffType, ":(" });
             state = State.END;
         }
 
@@ -132,6 +153,9 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         counter.render(sb);
 
         if (message != null) message.render(sb);
+
+        in.render(sb);
+        out.render(sb);
 
         sb.end();
     }

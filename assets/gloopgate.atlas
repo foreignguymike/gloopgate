@@ -1,6 +1,8 @@
 gloopgate.png
 size:256,64
 repeat:none
+arrow
+bounds:78,2,3,5
 bridge
 bounds:2,17,64,45
 color
@@ -14,7 +16,7 @@ bounds:132,32,4,8
 o
 bounds:122,32,8,8
 pixel
-bounds:68,4,1,1
+bounds:147,45,1,1
 rail
 bounds:122,58,64,4
 slimebg

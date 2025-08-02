@@ -12,6 +12,13 @@ public class LevelData {
         NORMAL,
         HARD,
         WEIRD
+        ;
+
+        public static Difficulty from(int value) {
+            if (value == 0) return NORMAL;
+            else if (value == 1) return HARD;
+            else return WEIRD;
+        }
     }
 
     public final Valid.Type validType;
@@ -136,10 +143,10 @@ public class LevelData {
         } else {
             if (level == 1) {
                 validType = Valid.Type.INVALID;
-                slimeTypes = Slime.Type.random(2);
+                slimeTypes = Slime.Type.random(3);
                 slimeInterval = 0.4f;
                 slimeBias = slimeTypes;
-                biasAmount = 3;
+                biasAmount = 1;
                 speed = 20;
                 slimeCount = 30;
             } else if (level == 2) {
@@ -147,7 +154,7 @@ public class LevelData {
                 slimeTypes = Slime.Type.random(3);
                 slimeInterval = 0.4f;
                 slimeBias = slimeTypes;
-                biasAmount = 2;
+                biasAmount = 1;
                 speed = 20;
                 slimeCount = 35;
             } else if (level == 3) {
