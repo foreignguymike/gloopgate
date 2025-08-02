@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
+import com.distraction.gloopgate.LevelData;
 import com.distraction.gloopgate.SlimeSpawner;
 import com.distraction.gloopgate.entity.Counter;
 import com.distraction.gloopgate.entity.Slime;
@@ -15,7 +16,8 @@ import java.util.List;
 public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
     private static final int MAX_LANES = 6;
-    private static final float SLIME_INTERVAL = 0.4f;
+
+    private final LevelData levelData;
 
     private final List<List<Slime>> slimes;
     private final SlimeSpawner slimeSpawner;
@@ -23,24 +25,23 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
     private final Valid valid;
     private final Counter counter;
 
-    public PlayScreen(Context context) {
+    public PlayScreen(Context context, int level) {
         super(context);
+
+        levelData = LevelData.create(level);
 
         slimes = new ArrayList<>();
         for (int i = 0; i < MAX_LANES; i++) slimes.add(new ArrayList<>());
-        slimeSpawner = new SlimeSpawner(this, MAX_LANES, SLIME_INTERVAL);
+        slimeSpawner = new SlimeSpawner(this, MAX_LANES, levelData.slimeInterval, levelData.slimeBias, levelData.biasAmount);
 
-        List<Slime.Type> slimeTypes = new ArrayList<>();
-        slimeTypes.add(Slime.Type.BLUE);
-        slimeTypes.add(Slime.Type.GREEN);
-        valid = new Valid(context, Valid.Type.VALID, slimeTypes);
+        valid = new Valid(context, levelData.validType, levelData.slimeTypes);
         counter = new Counter(context);
     }
 
     @Override
-    public void onSpawn(int lane) {
+    public void onSpawn(Slime.Type type, int lane) {
         int y = 40 - lane * 4;
-        slimes.get(lane).add(new Slime(context, Slime.Type.random(), y));
+        slimes.get(lane).add(new Slime(context, type, y, levelData.speed));
     }
 
     @Override

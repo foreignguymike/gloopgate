@@ -36,7 +36,7 @@ public class Context {
 
         sb = new SpriteBatch();
 
-        sm = new ScreenManager(new com.distraction.gloopgate.screens.PlayScreen(this));
+        sm = new ScreenManager(new com.distraction.gloopgate.screens.PlayScreen(this, 5));
     }
 
     public TextureRegion getImage(String key) {

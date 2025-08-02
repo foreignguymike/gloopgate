@@ -8,6 +8,10 @@ import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
 import com.distraction.gloopgate.Utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Slime extends Entity {
 
     public enum Type {
@@ -30,19 +34,27 @@ public class Slime extends Entity {
         public static Type random() {
             return types[MathUtils.random(0, types.length - 1)];
         }
+
+        public static List<Type> random(int amount) {
+            List<Type> list = new ArrayList<>(Arrays.asList(types));
+            while (list.size() > amount) list.remove(MathUtils.random(0, list.size() - 1));
+            return list;
+        }
     }
 
     private final Type type;
     private final float baseline;
+    private final float speed;
 
     private float time;
 
     private final TextureRegion outline;
     private final TextureRegion fill;
 
-    public Slime(Context context, Type type, float baseline) {
+    public Slime(Context context, Type type, float baseline, float speed) {
         this.type = type;
         this.baseline = baseline;
+        this.speed = speed;
 
         outline = context.getImage("slimeoutline");
         fill = context.getImage("slimefill");
@@ -54,9 +66,9 @@ public class Slime extends Entity {
     @Override
     public void update(float dt) {
         time += dt;
-        x -= 10 * dt;
+        x -= speed * dt;
 
-        y = baseline + Math.abs(5 * MathUtils.sin(time * 3));
+        y = baseline + Math.abs(5 * MathUtils.sin(time * 3 * speed / 10));
 
         if (x < -10) remove = true;
     }
