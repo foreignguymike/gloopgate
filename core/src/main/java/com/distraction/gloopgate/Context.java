@@ -1,6 +1,7 @@
 package com.distraction.gloopgate;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -23,6 +24,16 @@ public class Context {
         assets.load(M5X716, BitmapFont.class);
         assets.finishLoading();
 
+        TextureAtlas atlas = assets.get(ATLAS, TextureAtlas.class);
+        for (Texture t : atlas.getTextures()) {
+            t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+
+        BitmapFont font = assets.get(M5X716, BitmapFont.class);
+        for (TextureRegion region : font.getRegions()) {
+            region.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
+
         sb = new SpriteBatch();
 
         sm = new ScreenManager(new com.distraction.gloopgate.screens.PlayScreen(this));
@@ -39,7 +50,7 @@ public class Context {
     }
 
     public BitmapFont getFont() {
-        return getFont(M5X716, 1f);
+        return getFont(M5X716);
     }
 
     public BitmapFont getFont(String name) {
