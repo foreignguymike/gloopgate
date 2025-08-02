@@ -4,21 +4,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.distraction.gloopgate.Context;
 
-public class Background extends Entity {
+public class GameBackground extends Entity {
 
     private final TextureRegion bridge;
     private final TextureRegion rail;
 
-    private float time;
-
-    public Background(Context context) {
+    public GameBackground(Context context) {
         bridge = context.getImage("bridge");
         rail = context.getImage("rail");
-    }
-
-    @Override
-    public void update(float dt) {
-        time += dt;
     }
 
     @Override

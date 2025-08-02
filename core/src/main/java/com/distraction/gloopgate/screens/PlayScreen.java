@@ -2,12 +2,11 @@ package com.distraction.gloopgate.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.MathUtils;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
 import com.distraction.gloopgate.LevelData;
 import com.distraction.gloopgate.SlimeSpawner;
-import com.distraction.gloopgate.entity.Background;
+import com.distraction.gloopgate.entity.GameBackground;
 import com.distraction.gloopgate.entity.Counter;
 import com.distraction.gloopgate.entity.Message;
 import com.distraction.gloopgate.entity.Slime;
@@ -34,7 +33,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
     private final Valid valid;
     private final Counter counter;
 
-    private final Background bg;
+    private final GameBackground bg;
 
     private Message message;
 
@@ -43,10 +42,10 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
     private int validSlimeCount;
     private int slimeCount;
 
-    public PlayScreen(Context context, int level) {
+    public PlayScreen(Context context, LevelData.Difficulty difficulty, int level) {
         super(context);
 
-        levelData = LevelData.create(level);
+        levelData = LevelData.create(difficulty, level);
 
         slimes = new ArrayList<>();
         for (int i = 0; i < MAX_LANES; i++) slimes.add(new ArrayList<>());
@@ -55,7 +54,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         valid = new Valid(context, levelData.validType, levelData.slimeTypes);
         counter = new Counter(context);
 
-        bg = new Background(context);
+        bg = new GameBackground(context);
 
         message = new Message(context, new String[] { "Day " + level });
     }
@@ -102,7 +101,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         if (state != State.END && slimeCount == 0 && slimeSpawner.isDone()) {
             int diff = validSlimeCount - counter.count;
             String diffType = diff < 0 ? " extra" : " missed";
-            message = new Message(context, diff == 0 ? new String[] { "PERFECT!" } : new String[] {diff + diffType, ":(" });
+            message = new Message(context, diff == 0 ? new String[] { "PERFECT!" } : new String[] {Math.abs(diff) + diffType, ":(" });
             state = State.END;
         }
 

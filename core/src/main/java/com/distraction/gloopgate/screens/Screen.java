@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.distraction.gloopgate.Constants;
@@ -73,6 +74,10 @@ public abstract class Screen {
     protected void unproject() {
         m.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         uiCam.unproject(m);
+    }
+
+    protected int snap(float f) {
+        return MathUtils.round(f);
     }
 
     public void resume() {}
