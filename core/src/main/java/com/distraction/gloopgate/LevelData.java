@@ -46,7 +46,7 @@ public class LevelData {
         if (level == 1) {
             validType = Valid.Type.VALID;
             slimeTypes = Slime.Type.random(2);
-            slimeInterval = 0.7f;
+            slimeInterval = 0.6f;
             slimeBias = slimeTypes;
             biasAmount = 3;
             speed = 14;
@@ -56,7 +56,7 @@ public class LevelData {
             slimeTypes = Slime.Type.random(3);
             slimeInterval = 0.6f;
             slimeBias = slimeTypes;
-            biasAmount = 4;
+            biasAmount = 2;
             speed = 16;
             slimeCount = 25;
         } else if (level == 3) {
@@ -68,13 +68,20 @@ public class LevelData {
             speed = 16;
             slimeCount = 25;
         } else if (level == 4) {
+//            validType = Valid.Type.VALID;
+//            slimeTypes = Slime.Type.random(4);
+//            slimeInterval = 0.5f;
+//            slimeBias = slimeTypes;
+//            biasAmount = 2;
+//            speed = 18;
+//            slimeCount = 30;
             validType = Valid.Type.VALID;
             slimeTypes = Slime.Type.random(4);
-            slimeInterval = 0.5f;
+            slimeInterval = 0.4f;
             slimeBias = slimeTypes;
             biasAmount = 2;
-            speed = 18;
-            slimeCount = 30;
+            speed = 25;
+            slimeCount = 40;
         } else {
             validType = Valid.Type.INVALID;
             slimeTypes = Slime.Type.random(4);

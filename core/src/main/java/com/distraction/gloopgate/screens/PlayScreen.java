@@ -2,13 +2,14 @@ package com.distraction.gloopgate.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
 import com.distraction.gloopgate.LevelData;
 import com.distraction.gloopgate.SlimeSpawner;
 import com.distraction.gloopgate.entity.Background;
 import com.distraction.gloopgate.entity.Counter;
+import com.distraction.gloopgate.entity.Message;
 import com.distraction.gloopgate.entity.Slime;
 import com.distraction.gloopgate.entity.Valid;
 
@@ -17,7 +18,13 @@ import java.util.List;
 
 public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
-    private static final int MAX_LANES = 6;
+    enum State {
+        READY,
+        GO,
+        END
+    }
+
+    private static final int MAX_LANES = 7;
 
     private final LevelData levelData;
 
@@ -28,6 +35,13 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
     private final Counter counter;
 
     private final Background bg;
+
+    private Message message;
+
+    private State state = State.READY;
+
+    private int validSlimeCount;
+    private int slimeCount;
 
     public PlayScreen(Context context, int level) {
         super(context);
@@ -42,31 +56,54 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         counter = new Counter(context);
 
         bg = new Background(context);
+
+        message = new Message(context, new String[] { "Day " + level });
     }
 
     @Override
     public void onSpawn(Slime.Type type, int lane) {
-        int y = 40 - lane * 4;
+        int y = 44 - lane * 4;
         slimes.get(lane).add(new Slime(context, type, y, levelData.speed));
+        slimeCount++;
     }
 
     @Override
     public void input() {
         if (ignoreInput) return;
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) counter.count();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            if (state == State.READY) {
+                if (message != null) message = null;
+                state = State.GO;
+            } else if (state == State.GO) {
+                counter.count();
+            }
+        }
     }
 
     @Override
     public void update(float dt) {
+        if (state == State.READY) return;
+
         slimeSpawner.update(dt);
 
         for (List<Slime> lane : slimes) {
             for (int i = 0; i < lane.size(); i++) {
                 Slime slime = lane.get(i);
                 slime.update(dt);
-                if (slime.remove) lane.remove(i--);
+                if (slime.remove) {
+                    Slime removedSlime = lane.remove(i--);
+                    if (valid.isValid(removedSlime.type)) validSlimeCount++;
+                    slimeCount--;
+                }
             }
+        }
+
+        if (state != State.END && slimeCount == 0 && slimeSpawner.isDone()) {
+            int diff = validSlimeCount - counter.count;
+            String diffType = diff < 0 ? " extra" : " missed";
+            message = new Message(context, diff == 0 ? new String[] { "PERFECT!" } : new String[] {diff + diffType, ":(" });
+            state = State.END;
         }
 
         valid.update(dt);
@@ -94,6 +131,8 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
         valid.render(sb);
         counter.render(sb);
+
+        if (message != null) message.render(sb);
 
         sb.end();
     }

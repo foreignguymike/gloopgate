@@ -42,7 +42,8 @@ public class Slime extends Entity {
         }
     }
 
-    private final Type type;
+    public final Type type;
+
     private final float baseline;
     private final float speed;
 

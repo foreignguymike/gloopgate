@@ -38,6 +38,11 @@ public class Valid extends Entity {
         y = 51;
     }
 
+    public boolean isValid(Slime.Type type) {
+        boolean inList = slimeTypes.contains(type);
+        return (this.type == Type.VALID) == inList;
+    }
+
     @Override
     public void update(float dt) {
         time += dt;
