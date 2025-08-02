@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
+import com.distraction.gloopgate.SlimeSpawner;
 import com.distraction.gloopgate.entity.Counter;
 import com.distraction.gloopgate.entity.Slime;
 import com.distraction.gloopgate.entity.Valid;
@@ -11,10 +12,13 @@ import com.distraction.gloopgate.entity.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayScreen extends Screen {
+public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
-    private float slimeInterval = 2;
-    private final List<Slime> slimes;
+    private static final int MAX_LANES = 6;
+    private static final float SLIME_INTERVAL = 0.4f;
+
+    private final List<List<Slime>> slimes;
+    private final SlimeSpawner slimeSpawner;
 
     private final Valid valid;
     private final Counter counter;
@@ -23,7 +27,8 @@ public class PlayScreen extends Screen {
         super(context);
 
         slimes = new ArrayList<>();
-        slimes.add(new Slime(context, Slime.Type.random(), 30));
+        for (int i = 0; i < MAX_LANES; i++) slimes.add(new ArrayList<>());
+        slimeSpawner = new SlimeSpawner(this, MAX_LANES, SLIME_INTERVAL);
 
         List<Slime.Type> slimeTypes = new ArrayList<>();
         slimeTypes.add(Slime.Type.BLUE);
@@ -32,8 +37,10 @@ public class PlayScreen extends Screen {
         counter = new Counter(context);
     }
 
-    private void addSlime() {
-        slimes.add(new Slime(context, Slime.Type.random(), 30));
+    @Override
+    public void onSpawn(int lane) {
+        int y = 40 - lane * 4;
+        slimes.get(lane).add(new Slime(context, Slime.Type.random(), y));
     }
 
     @Override
@@ -45,16 +52,14 @@ public class PlayScreen extends Screen {
 
     @Override
     public void update(float dt) {
-        slimeInterval -= dt;
-        if (slimeInterval < 0) {
-            addSlime();
-            slimeInterval = 2;
-        }
+        slimeSpawner.update(dt);
 
-        for (int i = 0; i < slimes.size(); i++) {
-            Slime slime = slimes.get(i);
-            slime.update(dt);
-            if (slime.remove) slimes.remove(i--);
+        for (List<Slime> lane : slimes) {
+            for (int i = 0; i < lane.size(); i++) {
+                Slime slime = lane.get(i);
+                slime.update(dt);
+                if (slime.remove) lane.remove(i--);
+            }
         }
 
         valid.update(dt);
@@ -69,7 +74,9 @@ public class PlayScreen extends Screen {
         sb.setColor(Constants.BG);
         sb.draw(pixel, 0, 0, Constants.WIDTH, Constants.HEIGHT);
 
-        for (Slime slime : slimes) slime.render(sb);
+        for (List<Slime> lane : slimes) {
+            for (Slime slime : lane) slime.render(sb);
+        }
 
         valid.render(sb);
         counter.render(sb);

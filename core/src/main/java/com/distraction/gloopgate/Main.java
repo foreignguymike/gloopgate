@@ -13,6 +13,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
 
+    private static final float TICK = 1f / 60f;
+    private float accum;
+
     private Context context;
 
     @Override
@@ -26,7 +29,11 @@ public class Main extends ApplicationAdapter {
     @Override
     public void render() {
         context.sm.input();
-        context.sm.update(Gdx.graphics.getDeltaTime());
+        accum += Gdx.graphics.getDeltaTime();
+        while (accum > TICK) {
+            accum -= TICK;
+            context.sm.update(TICK);
+        }
         context.sm.render();
     }
 
