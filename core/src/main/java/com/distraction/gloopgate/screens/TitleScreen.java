@@ -42,9 +42,11 @@ public class TitleScreen extends Screen {
     public TitleScreen(Context context) {
         super(context);
 
-        ignoreInput = true;
-        in = new Transition(context, Transition.Type.FLASH_IN, 0.5f, () -> ignoreInput = false);
-        in.start();
+        in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
+        if (context.loaded) {
+            ignoreInput = true;
+            in.start();
+        }
         out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f);
 
         title = context.getImage("title");

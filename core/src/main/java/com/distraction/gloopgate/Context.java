@@ -23,6 +23,8 @@ public class Context {
 
     private final BitmapFont font;
 
+    public boolean loaded;
+
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
@@ -36,6 +38,7 @@ public class Context {
         audio = new AudioHandler();
 
         sm = new ScreenManager(new com.distraction.gloopgate.screens.TitleScreen(this));
+        loaded = true;
     }
 
     public TextureRegion getImage(String key) {

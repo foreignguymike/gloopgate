@@ -32,7 +32,7 @@ public class ResultScreen extends Screen {
         ignoreInput = true;
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
         in.start();
-        out = new Transition(context, Transition.Type.FLASH_OUT, 0.5f, () -> context.sm.replace(new TitleScreen(context)));
+        out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> context.sm.replace(new TitleScreen(context)));
 
         slimeBg = new RepeatingBackground(context.getImage("slimebg"));
 
