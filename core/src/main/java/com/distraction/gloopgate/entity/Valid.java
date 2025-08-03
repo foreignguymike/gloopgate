@@ -13,9 +13,6 @@ public class Valid extends Entity {
         INVALID
     }
 
-    private float time;
-
-    private final TextureRegion bg;
     private final TextureRegion valid;
     private final TextureRegion invalid;
     private final TextureRegion colorOutline;
@@ -28,7 +25,6 @@ public class Valid extends Entity {
         this.type = type;
         this.slimeTypes = slimeTypes;
 
-        bg = context.getImage("validbg");
         valid = context.getImage("o");
         invalid = context.getImage("x");
         colorOutline = context.getImage("coloroutline");
@@ -44,14 +40,8 @@ public class Valid extends Entity {
     }
 
     @Override
-    public void update(float dt) {
-        time += dt;
-    }
-
-    @Override
     public void render(SpriteBatch sb) {
         sb.setColor(1, 1, 1, 1);
-        sb.draw(bg, x, y);
         sb.draw(type == Type.VALID ? valid : invalid, x + 3, y + 4);
 
         for (int i = 0; i < slimeTypes.size(); i++) {

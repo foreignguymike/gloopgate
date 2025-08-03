@@ -6,18 +6,18 @@ import com.distraction.gloopgate.Context;
 
 public class GameBackground extends Entity {
 
-    private final TextureRegion bridge;
+    private final TextureRegion bg;
     private final TextureRegion rail;
 
     public GameBackground(Context context) {
-        bridge = context.getImage("bridge");
+        bg = context.getImage("playbg");
         rail = context.getImage("rail");
     }
 
     @Override
     public void render(SpriteBatch sb) {
         sb.setColor(1, 1, 1, 1);
-        sb.draw(bridge, 0, 0);
+        sb.draw(bg, 0, 0);
         sb.draw(rail, 0, 45);
     }
 
