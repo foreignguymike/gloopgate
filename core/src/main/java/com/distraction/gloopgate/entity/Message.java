@@ -8,24 +8,40 @@ import com.distraction.gloopgate.Context;
 
 public class Message extends Entity {
 
-    private final TextEntity[] texts;
+    private static final float INTERVAL = 3;
+
+    private final TextEntity text;
+    private final String[] texts;
     private final TextureRegion pixel;
 
+    private float time;
+    private int index;
+
     public Message(Context context, String[] texts) {
-        this.texts = new TextEntity[texts.length];
+        this.texts = texts;
 
         pixel = context.getPixel();
 
         w = Constants.WIDTH;
-        h = texts.length * 10 + 4;
+        h = 14;
 
         x = 0;
-        y = snap(Constants.HEIGHT / 2f - h / 2f);
+        y = snap(Constants.HEIGHT / 2f - h / 2f + 1);
 
         BitmapFont font = context.getFont();
-        font.setColor(Constants.WHITE);
-        for (int i = 0; i < texts.length; i++) {
-            this.texts[i] = new TextEntity(font, texts[i], Constants.WIDTH / 2f, y + h - 8 - i * 10, TextEntity.Alignment.CENTER);
+        text = new TextEntity(font, texts[0], Constants.WIDTH / 2f, Constants.HEIGHT / 2f, TextEntity.Alignment.CENTER);
+    }
+
+    @Override
+    public void update(float dt) {
+        time += dt;
+        if (texts.length > 1) {
+            if (time >= INTERVAL) {
+                time -= INTERVAL;
+                index++;
+                if (index >= texts.length) index = 0;
+                text.setText(texts[index]);
+            }
         }
     }
 
@@ -34,7 +50,6 @@ public class Message extends Entity {
         sb.setColor(Constants.BLACK);
         sb.draw(pixel, x, y, w, h);
         sb.setColor(1, 1, 1, 1);
-        for (TextEntity te : texts) te.render(sb);
-
+        text.render(sb);
     }
 }

@@ -42,13 +42,13 @@ public class Valid extends Entity {
     @Override
     public void render(SpriteBatch sb) {
         sb.setColor(1, 1, 1, 1);
-        sb.draw(type == Type.VALID ? valid : invalid, x + 3, y + 4);
+        sb.draw(type == Type.VALID ? valid : invalid, x, y);
 
         for (int i = 0; i < slimeTypes.size(); i++) {
             Slime.Type slimeType = slimeTypes.get(i);
-            sb.draw(colorOutline, x + 18 + i * 9, y + 4);
+            sb.draw(colorOutline, x + 19 + i * 11, y + 4);
             sb.setColor(slimeType.color);
-            sb.draw(color, x + 19 + i * 9, y + 5);
+            sb.draw(color, x + 20 + i * 11, y + 5);
         }
     }
 }

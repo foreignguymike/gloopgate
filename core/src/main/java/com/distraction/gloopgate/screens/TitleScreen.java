@@ -181,7 +181,7 @@ public class TitleScreen extends Screen {
             font.draw(sb, LevelData.Difficulty.HARD.text, 20, difficultyy.value + 20);
             font.draw(sb, LevelData.Difficulty.WEIRD.text, 20, difficultyy.value + 10);
             if (!difficultyTitley.isActive() && !difficultyy.isActive()) {
-                sb.draw(arrow, 14, difficultyy.value + 25 - difficultySelection * 10);
+                sb.draw(arrow, 12, difficultyy.value + 25 - difficultySelection * 10);
             }
         }
 
