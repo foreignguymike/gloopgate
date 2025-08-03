@@ -72,7 +72,9 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
     private void end() {
         ignoreInput = true;
-        context.addScore(20 - Math.abs(counter.count - validSlimeCount));
+        int diff = counter.count - validSlimeCount;
+        if (diff < 0) diff *= -2;
+        context.addScore(20 - diff);
         out = new Transition(
             context,
             Transition.Type.CHECKERED_OUT,
