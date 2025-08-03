@@ -21,11 +21,15 @@ public class Context {
 
     public int score = 100;
 
+    private final BitmapFont font;
+
     public Context() {
         assets = new AssetManager();
         assets.load(ATLAS, TextureAtlas.class);
         assets.load(M5X716, BitmapFont.class);
         assets.finishLoading();
+
+        font = assets.get(M5X716, BitmapFont.class);
 
         sb = new SpriteBatch();
 
@@ -45,18 +49,7 @@ public class Context {
     }
 
     public BitmapFont getFont() {
-        return getFont(M5X716);
-    }
-
-    public BitmapFont getFont(String name) {
-        return getFont(name, 1f);
-    }
-
-    public BitmapFont getFont(String name, float scale) {
-        BitmapFont originalFont = assets.get(name, BitmapFont.class);
-        BitmapFont scaledFont = new BitmapFont(originalFont.getData().getFontFile(), originalFont.getRegion(), false);
-        scaledFont.getData().setScale(scale);
-        return scaledFont;
+        return font;
     }
 
     public void addScore(int score) {
@@ -69,6 +62,7 @@ public class Context {
 
     public void dispose() {
         sb.dispose();
+        font.dispose();
     }
 
 }

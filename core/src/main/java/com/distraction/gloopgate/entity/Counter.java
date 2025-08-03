@@ -16,7 +16,7 @@ public class Counter extends Entity {
     private final BitmapFont font;
 
     public int count;
-    private String[] c;
+    private final String[] c;
 
     private float buttonTimer;
     private int buttonOffset;
@@ -26,7 +26,6 @@ public class Counter extends Entity {
         button = context.getImage("counterbutton");
 
         font = context.getFont();
-        font.setColor(Constants.BLACK);
 
         c = new String[] { "0", "0", "0" };
 
@@ -59,6 +58,7 @@ public class Counter extends Entity {
         sb.draw(button, x + 23 - buttonOffset, y + 3);
         sb.draw(counter, x, y);
 
+        font.setColor(Constants.BLACK);
         font.draw(sb, c[0], x + 3, y + 10);
         font.draw(sb, c[1], x + 9, y + 10);
         font.draw(sb, c[2], x + 15, y + 10);
