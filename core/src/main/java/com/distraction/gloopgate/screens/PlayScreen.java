@@ -163,6 +163,10 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         bg.render(sb);
 
         for (List<Slime> lane : slimes) {
+            for (Slime slime : lane) slime.renderShadow(sb);
+        }
+
+        for (List<Slime> lane : slimes) {
             for (Slime slime : lane) slime.render(sb);
         }
 

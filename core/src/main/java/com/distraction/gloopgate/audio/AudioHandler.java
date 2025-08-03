@@ -19,16 +19,11 @@ public class AudioHandler {
         addMusic("bg", "music/noworries.ogg");
 
         sounds = new HashMap<>();
-        addSound("enter", "sfx/FreeSFX/Retro Event UI 01.wav");
-        addSound("select", "sfx/FreeSFX/Retro Event Acute 08.wav");
-        addSound("click", "sfx/FreeSFX/Retro Event Acute 11.wav");
-        addSound("collect", "sfx/FreeSFX/Retro Water Drop 01.wav");
-        addSound("stop", "sfx/FreeSFX/Retro Event StereoUP 02.wav");
-        addSound("submit", "sfx/FreeSFX/Retro Event UI 13.wav");
-        addSound("ability", "sfx/FreeSFX/Retro Magic Protection 25(cut).wav");
-
         addSound("cheer", "sfx/DennisH18/crowd-cheering.wav");
 
+        addSound("select", "sfx/select.wav");
+        addSound("enter", "sfx/enter.wav");
+        addSound("enter2", "sfx/enter.ogg");
         addSound("tick", "sfx/click.ogg");
         addSound("tick2", "sfx/shift.wav");
         addSound("finish", "sfx/finish.wav");

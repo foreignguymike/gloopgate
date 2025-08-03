@@ -44,12 +44,13 @@ public class Slime extends Entity {
 
     public final Type type;
 
-    private final float baseline;
+    public final float baseline;
     private final float speed;
 
     private float time;
 
     private final TextureRegion image;
+    private final TextureRegion pixel;
 
     public Slime(Context context, Type type, float baseline, float speed) {
         this.type = type;
@@ -57,6 +58,7 @@ public class Slime extends Entity {
         this.speed = speed;
 
         image = context.getImage("slime" + type.name().toLowerCase());
+        pixel = context.getPixel();
 
         x = Constants.WIDTH + 10;
         y = baseline;
@@ -79,5 +81,11 @@ public class Slime extends Entity {
 
         sb.setColor(1, 1, 1, 1);
         Utils.drawCentered(sb, image, x, y);
+    }
+
+    public void renderShadow(SpriteBatch sb) {
+        int diff = snap(MathUtils.clamp(y - baseline, 0, 2));
+        sb.setColor(Constants.SHADOW);
+        sb.draw(pixel, snap(x - (4 - diff)), snap(baseline - 3), 8 - diff * 2, 1);
     }
 }

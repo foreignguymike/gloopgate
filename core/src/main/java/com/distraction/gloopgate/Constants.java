@@ -70,4 +70,5 @@ public class Constants {
     public static final Color WHITE = COLORS[19];
     public static final Color GRASS = COLORS[12];
     public static final Color SKY = COLORS[18];
+    public static final Color SHADOW = COLORS[4];
 }
