@@ -1,11 +1,11 @@
 package com.distraction.gloopgate;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.distraction.gloopgate.audio.AudioHandler;
 import com.distraction.gloopgate.screens.ScreenManager;
 
 public class Context {
@@ -14,6 +14,7 @@ public class Context {
     public static final String M5X716 = "fonts/m5x716.fnt";
 
     public AssetManager assets;
+    public AudioHandler audio;
 
     public ScreenManager sm;
     public SpriteBatch sb;
@@ -26,17 +27,9 @@ public class Context {
         assets.load(M5X716, BitmapFont.class);
         assets.finishLoading();
 
-        TextureAtlas atlas = assets.get(ATLAS, TextureAtlas.class);
-        for (Texture t : atlas.getTextures()) {
-            t.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        }
-
-        BitmapFont font = assets.get(M5X716, BitmapFont.class);
-        for (TextureRegion region : font.getRegions()) {
-            region.getTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        }
-
         sb = new SpriteBatch();
+
+        audio = new AudioHandler();
 
         sm = new ScreenManager(new com.distraction.gloopgate.screens.TitleScreen(this));
     }

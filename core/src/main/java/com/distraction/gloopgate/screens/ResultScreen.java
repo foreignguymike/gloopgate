@@ -3,6 +3,7 @@ package com.distraction.gloopgate.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.MathUtils;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
 import com.distraction.gloopgate.LevelData;
@@ -60,6 +61,8 @@ public class ResultScreen extends Screen {
         scoreTypeText.setColor(Constants.BLACK);
 
         barPercentMax = score / 100f;
+
+        context.audio.stopMusic();
     }
 
     @Override
@@ -109,7 +112,7 @@ public class ResultScreen extends Screen {
         sb.draw(pixel, 11, datay.value + 14, barLength + 2, 2);
         sb.draw(pixel, 12, datay.value + 13, barLength, 1);
         sb.setColor(Constants.GREEN);
-        sb.draw(pixel, 12, datay.value + 14, snap(barPercent * barLength), 2);
+        sb.draw(pixel, 12, datay.value + 14, MathUtils.floor(barPercent * barLength), 2);
 
         in.render(sb);
         out.render(sb);

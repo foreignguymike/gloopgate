@@ -30,10 +30,9 @@ public class TitleScreen extends Screen {
     private float titleOffset;
 
     private final MoveTarget titley;
-    private final MoveTarget playHelpy;
+    private final MoveTarget playy;
 
     private final BitmapFont font;
-    private int selection;
 
     private final TextureRegion arrow;
     private final MoveTarget difficultyTitley;
@@ -53,8 +52,8 @@ public class TitleScreen extends Screen {
         titley = new MoveTarget(Constants.HEIGHT + 1);
         titley.setTarget(17);
 
-        playHelpy = new MoveTarget(-10);
-        playHelpy.setTarget(13);
+        playy = new MoveTarget(-10);
+        playy.setTarget(12);
 
         difficultyTitley = new MoveTarget(Constants.HEIGHT + 10);
         difficultyy = new MoveTarget(-Constants.HEIGHT / 2f);
@@ -66,12 +65,15 @@ public class TitleScreen extends Screen {
 
         slimeBg = new RepeatingBackground(context.getImage("slimebg"));
         context.resetScore();
+
+        context.audio.stopMusic();
     }
 
     private void goToDifficulty() {
         state = State.TO_DIFFICULTY;
         titley.setTarget(Constants.HEIGHT + 1);
-        playHelpy.setTarget(-10);
+        playy.setTarget(-10);
+        context.audio.playSound("enter");
     }
 
     private void onDifficulty() {
@@ -89,7 +91,7 @@ public class TitleScreen extends Screen {
     private void onMain() {
         state = State.MAIN;
         titley.setTarget(17);
-        playHelpy.setTarget(13);
+        playy.setTarget(13);
     }
 
     private void play() {
@@ -101,22 +103,29 @@ public class TitleScreen extends Screen {
             () -> context.sm.replace(new PlayScreen(context, LevelData.Difficulty.from(difficultySelection), 1))
         );
         out.start();
+        context.audio.playSound("select");
     }
 
     @Override
     public void input() {
         if (ignoreInput) return;
 
-        if (state == State.MAIN && !titley.isActive() && !playHelpy.isActive()) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) if (selection > 0) selection--;
-            if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) if (selection < 1) selection++;
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-                if (selection == 0) goToDifficulty();
-            }
+        if (state == State.MAIN && !titley.isActive() && !playy.isActive()) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) goToDifficulty();
         }
         if (state == State.DIFFICULTY && !difficultyTitley.isActive() && !difficultyy.isActive()) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) if (difficultySelection > 0) difficultySelection--;
-            if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) if (difficultySelection < 2) difficultySelection++;
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                if (difficultySelection > 0) {
+                    difficultySelection--;
+                    context.audio.playSound("tick2");
+                }
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+                if (difficultySelection < 2) {
+                    difficultySelection++;
+                    context.audio.playSound("tick2");
+                }
+            }
             if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) play();
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) toMain();
         }
@@ -130,11 +139,11 @@ public class TitleScreen extends Screen {
         slimeBg.update(dt);
 
         titley.update(dt);
-        playHelpy.update(dt);
+        playy.update(dt);
         difficultyTitley.update(dt);
         difficultyy.update(dt);
 
-        if (state == State.TO_DIFFICULTY && !titley.isActive() && !playHelpy.isActive()) {
+        if (state == State.TO_DIFFICULTY && !titley.isActive() && !playy.isActive()) {
             onDifficulty();
         }
 
@@ -162,12 +171,8 @@ public class TitleScreen extends Screen {
         sb.draw(title, 6, snap(titley.value + titleOffset));
 
         if (state == State.MAIN || state == State.TO_DIFFICULTY || state == State.FROM_DIFFICULTY) {
-            font.draw(sb, "Play", 6, playHelpy.value);
-            font.draw(sb, "Help", 36, playHelpy.value);
+            font.draw(sb, "Enter", 20, playy.value);
             sb.setColor(Constants.BLACK);
-            if (!playHelpy.isActive() && !titley.isActive()) {
-                sb.draw(pixel, selection == 0 ? 5 : 35, playHelpy.value - 10, 22, 1);
-            }
         }
 
         if (state == State.DIFFICULTY || state == State.FROM_DIFFICULTY) {

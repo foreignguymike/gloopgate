@@ -1,14 +1,14 @@
 package com.distraction.gloopgate.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
+import com.distraction.gloopgate.MyViewport;
 
 public abstract class Screen {
 
@@ -18,8 +18,8 @@ public abstract class Screen {
 
     public boolean transparent = false;
 
-    protected OrthographicCamera cam;
-    protected OrthographicCamera uiCam;
+    protected Viewport viewport;
+    protected Camera cam;
     protected final Vector3 m;
 
     protected SpriteBatch sb;
@@ -35,52 +35,22 @@ public abstract class Screen {
 
         pixel = context.getPixel();
 
-        cam = new OrthographicCamera();
-        cam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
-
-        uiCam = new OrthographicCamera();
-        uiCam.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
+        viewport = new MyViewport(Constants.WIDTH, Constants.HEIGHT);
+        cam = viewport.getCamera();
 
         m = new Vector3();
-    }
-
-    protected void setPanTransition(Vector2 start, Vector2 end, OrthographicCamera cam) {
-        ignoreInput = true;
-        in = new Transition(
-            context,
-            Transition.Type.PAN, cam,
-            start,
-            end,
-            0.2f,
-            () -> ignoreInput = false
-        );
-        in.start();
-        out = new Transition(
-            context,
-            Transition.Type.PAN, cam,
-            end,
-            start,
-            0.2f,
-            () -> {
-                context.sm.pop();
-                context.sm.peek().ignoreInput = false;
-            }
-        );
-        cam.position.x = start.x;
-        cam.position.y = start.y;
-        cam.update();
-    }
-
-    protected void unproject() {
-        m.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        uiCam.unproject(m);
     }
 
     protected int snap(float f) {
         return MathUtils.round(f);
     }
 
-    public void resume() {}
+    public void resume() {
+    }
+
+    public void resize(int width, int height) {
+        viewport.update(width, height, true);
+    }
 
     public abstract void input();
 

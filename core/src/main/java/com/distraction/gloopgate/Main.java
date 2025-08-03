@@ -27,6 +27,11 @@ public class Main extends ApplicationAdapter {
     }
 
     @Override
+    public void resize(int width, int height) {
+        context.sm.resize(width, height);
+    }
+
+    @Override
     public void render() {
         context.sm.input();
         accum += Gdx.graphics.getDeltaTime();

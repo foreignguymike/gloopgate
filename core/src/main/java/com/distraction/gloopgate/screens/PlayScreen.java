@@ -66,6 +66,8 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         bg = new GameBackground(context);
 
         message = new Message(context, new String[]{"Day " + level});
+
+        context.audio.playMusic("bg", 0.2f, true);
     }
 
     private void end() {
@@ -81,6 +83,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
             }
         );
         out.start();
+        context.audio.playSound("select");
     }
 
     @Override
@@ -100,9 +103,15 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
                 state = State.GO;
             } else if (state == State.GO) {
                 counter.count();
+                context.audio.playSound("tick");
             } else if (state == State.END) {
                 end();
             }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            out = new Transition(context, Transition.Type.FLASH_OUT, 0.5f, () -> context.sm.replace(new TitleScreen(context)));
+            out.start();
         }
     }
 
@@ -132,6 +141,8 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
             String diffType = diff < 0 ? " extra" : " missed";
             message = new Message(context, diff == 0 ? new String[]{"PERFECT!!"} : new String[]{Math.abs(diff) + diffType, ":("});
             state = State.END;
+            if (diff == 0) context.audio.playSound("cheer");
+            context.audio.playSound("finish");
         }
 
         valid.update(dt);

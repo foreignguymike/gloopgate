@@ -20,6 +20,10 @@ public class ScreenManager extends Stack<Screen> {
         return s;
     }
 
+    public void resize(int width, int height) {
+        peek().resize(width, height);
+    }
+
     public void input() {
         peek().input();
     }
