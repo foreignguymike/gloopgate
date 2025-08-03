@@ -22,8 +22,8 @@ public class Main extends ApplicationAdapter {
     public void create() {
         context = new Context();
 
-        Gdx.input.setCatchKey(Input.Keys.SPACE, true);
         Gdx.input.setCatchKey(Input.Keys.UP, true);
+        Gdx.input.setCatchKey(Input.Keys.DOWN, true);
     }
 
     @Override
