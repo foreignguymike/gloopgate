@@ -13,6 +13,8 @@ import com.distraction.gloopgate.entity.TextEntity;
 
 public class ResultScreen extends Screen {
 
+    public static final float BAR_LENGTH = 40;
+
     private final RepeatingBackground slimeBg;
 
     private final MoveTarget titley;
@@ -22,7 +24,6 @@ public class ResultScreen extends Screen {
     private final TextEntity scoreText;
     private final TextEntity scoreTypeText;
 
-    private final float barLength = 40;
     private final float barPercentMax;
     private float barPercent;
 
@@ -51,18 +52,42 @@ public class ResultScreen extends Screen {
         scoreText = new TextEntity(font, score + "%", Constants.WIDTH / 2f, datay.value + 20, TextEntity.Alignment.CENTER);
         scoreText.setColor(Constants.BLACK);
 
-        String text;
-        if (score == 100) text = "PERFECT!";
-        else if (score >= 95) text = "Amazing!";
-        else if (score >= 90) text = "Great job";
-        else if (score >= 80) text = "Okay.";
-        else text = "You good...?";
+        String text = getText(difficulty, score);
         scoreTypeText = new TextEntity(font, text, Constants.WIDTH / 2f, datay.value + 8, TextEntity.Alignment.CENTER);
         scoreTypeText.setColor(Constants.BLACK);
 
         barPercentMax = score / 100f;
 
         context.audio.stopMusic();
+    }
+
+    private String getText(LevelData.Difficulty difficulty, int score) {
+        String text;
+        if (difficulty == LevelData.Difficulty.NORMAL) {
+            if (score == 100) text = "PERFECT!";
+            else if (score >= 95) text = "Amazing!";
+            else if (score >= 90) text = "Great job";
+            else if (score >= 80) text = "Okay.";
+            else text = "You good...?";
+        } else if (difficulty == LevelData.Difficulty.HARD) {
+            if (score == 100) text = "PERFECT!";
+            else if (score >= 92) text = "Amazing!";
+            else if (score >= 84) text = "Great job";
+            else if (score >= 76) text = "Okay.";
+            else text = "You good...?";
+        } else if (difficulty == LevelData.Difficulty.PRO) {
+            if (score == 100) text = "PERFECT!";
+            else if (score >= 90) text = "Amazing!";
+            else if (score >= 80) text = "Great job";
+            else if (score >= 70) text = "Okay.";
+            else text = "You good...?";
+        } else {
+            if (score == 100) text = "ALIEN";
+            else if (score >= 90) text = "Genius!";
+            else if (score >= 70) text = "Nimble.";
+            else text = "Too hard...";
+        }
+        return text;
     }
 
     @Override
@@ -108,11 +133,11 @@ public class ResultScreen extends Screen {
         scoreTypeText.render(sb);
 
         sb.setColor(Constants.BLACK);
-        sb.draw(pixel, 12, datay.value + 16, barLength, 1);
-        sb.draw(pixel, 11, datay.value + 14, barLength + 2, 2);
-        sb.draw(pixel, 12, datay.value + 13, barLength, 1);
+        sb.draw(pixel, 12, datay.value + 16, BAR_LENGTH, 1);
+        sb.draw(pixel, 11, datay.value + 14, BAR_LENGTH + 2, 2);
+        sb.draw(pixel, 12, datay.value + 13, BAR_LENGTH, 1);
         sb.setColor(Constants.GREEN);
-        sb.draw(pixel, 12, datay.value + 14, MathUtils.floor(barPercent * barLength), 2);
+        sb.draw(pixel, 12, datay.value + 14, MathUtils.floor(barPercent * BAR_LENGTH), 2);
 
         in.render(sb);
         out.render(sb);

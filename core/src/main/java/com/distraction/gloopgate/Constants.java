@@ -14,7 +14,7 @@ public class Constants {
 
     public static final boolean FULLSCREEN = false;
 
-    public static final String VERSION = "v1.4";
+    public static final String VERSION = "v1.5";
 
     // Endesga 32 https://lospec.com/palette-list/endesga-32
     public static final Color[] COLORS = new Color[]{
