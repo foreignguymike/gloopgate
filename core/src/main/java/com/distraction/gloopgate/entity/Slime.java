@@ -60,7 +60,7 @@ public class Slime extends Entity {
         image = context.getImage("slime" + type.name().toLowerCase());
         pixel = context.getPixel();
 
-        x = Constants.WIDTH + 10;
+        x = speed > 0 ? Constants.WIDTH + 10 : -10;
         y = baseline;
     }
 
@@ -71,7 +71,8 @@ public class Slime extends Entity {
 
         y = baseline + Math.abs(5 * MathUtils.sin(time * 3 * speed / 10));
 
-        if (x < -10) remove = true;
+        if (x < -10 && speed > 0) remove = true;
+        if (x > Constants.WIDTH && speed < 0) remove = true;
     }
 
     @Override
@@ -80,7 +81,8 @@ public class Slime extends Entity {
         int y = snap(this.y);
 
         sb.setColor(1, 1, 1, 1);
-        Utils.drawCentered(sb, image, x, y);
+        if (speed > 0) Utils.drawCentered(sb, image, x, y);
+        else Utils.drawCenteredHFlip(sb, image, x, y);
     }
 
     public void renderShadow(SpriteBatch sb) {

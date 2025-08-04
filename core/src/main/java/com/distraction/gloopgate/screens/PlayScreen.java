@@ -2,6 +2,7 @@ package com.distraction.gloopgate.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.MathUtils;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
 import com.distraction.gloopgate.LevelData;
@@ -91,7 +92,16 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
     @Override
     public void onSpawn(Slime.Type type, int lane) {
         int y = 44 - lane * 4;
-        slimes.get(lane).add(new Slime(context, type, y, levelData.speed));
+        float speed = levelData.speed;
+        if (difficulty == LevelData.Difficulty.HARD) {
+            speed += MathUtils.random(-2, 2);
+        } else if (difficulty == LevelData.Difficulty.PRO) {
+            speed += MathUtils.random(-5, 5);
+        } else if (difficulty == LevelData.Difficulty.WEIRD) {
+            speed += MathUtils.random(0, 10);
+            if (lane % 2 == 1) speed = -speed;
+        }
+        slimes.get(lane).add(new Slime(context, type, y, speed));
         currentSlimesOnScreen++;
     }
 

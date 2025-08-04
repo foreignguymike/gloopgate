@@ -37,6 +37,8 @@ public class TitleScreen extends Screen {
     private final TextureRegion arrow;
     private final MoveTarget difficultyTitley;
     private final MoveTarget difficultyy;
+
+    private final LevelData.Difficulty[] difficulties = LevelData.Difficulty.values();
     private int difficultySelection;
 
     public TitleScreen(Context context) {
@@ -58,7 +60,7 @@ public class TitleScreen extends Screen {
         playy.setTarget(12);
 
         difficultyTitley = new MoveTarget(Constants.HEIGHT + 10);
-        difficultyy = new MoveTarget(-Constants.HEIGHT / 2f);
+        difficultyy = new MoveTarget(-Constants.HEIGHT);
 
         arrow = context.getImage("arrow");
 
@@ -87,7 +89,7 @@ public class TitleScreen extends Screen {
     private void toMain() {
         state = State.FROM_DIFFICULTY;
         difficultyTitley.setTarget(Constants.HEIGHT + 10, 0.7f);
-        difficultyy.setTarget(-Constants.HEIGHT / 2f, 0.7f);
+        difficultyy.setTarget(-Constants.HEIGHT, 0.7f);
     }
 
     private void onMain() {
@@ -102,7 +104,7 @@ public class TitleScreen extends Screen {
             context,
             Transition.Type.CHECKERED_OUT,
             0.5f,
-            () -> context.sm.replace(new PlayScreen(context, LevelData.Difficulty.from(difficultySelection), 1))
+            () -> context.sm.replace(new PlayScreen(context, difficulties[difficultySelection], 1))
         );
         out.start();
         context.audio.playSound("select");
@@ -123,7 +125,7 @@ public class TitleScreen extends Screen {
                 }
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-                if (difficultySelection < 2) {
+                if (difficultySelection < difficulties.length - 1) {
                     difficultySelection++;
                     context.audio.playSound("tick2");
                 }
@@ -179,11 +181,11 @@ public class TitleScreen extends Screen {
 
         if (state == State.DIFFICULTY || state == State.FROM_DIFFICULTY) {
             font.draw(sb, "Difficulty", 10, difficultyTitley.value);
-            font.draw(sb, LevelData.Difficulty.NORMAL.text, 20, difficultyy.value + 30);
-            font.draw(sb, LevelData.Difficulty.HARD.text, 20, difficultyy.value + 20);
-            font.draw(sb, LevelData.Difficulty.WEIRD.text, 20, difficultyy.value + 10);
+            for (int i = 0; i < difficulties.length; i++) {
+                font.draw(sb, difficulties[i].text, 20, difficultyy.value + 35 - i * 10);
+            }
             if (!difficultyTitley.isActive() && !difficultyy.isActive()) {
-                sb.draw(arrow, 12, difficultyy.value + 25 - difficultySelection * 10);
+                sb.draw(arrow, 12, difficultyy.value + 30 - difficultySelection * 10);
             }
         }
 
