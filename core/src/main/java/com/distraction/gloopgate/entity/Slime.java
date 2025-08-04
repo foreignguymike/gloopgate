@@ -72,7 +72,7 @@ public class Slime extends Entity {
         y = baseline + Math.abs(5 * MathUtils.sin(time * 3 * speed / 10));
 
         if (x < -10 && speed > 0) remove = true;
-        if (x > Constants.WIDTH && speed < 0) remove = true;
+        if (x > Constants.WIDTH + 10 && speed < 0) remove = true;
     }
 
     @Override
