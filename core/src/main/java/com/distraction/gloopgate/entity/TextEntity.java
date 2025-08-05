@@ -64,11 +64,11 @@ public class TextEntity extends Entity {
     public void render(SpriteBatch sb) {
         if (currentText.isEmpty()) return;
         if (alignment == Alignment.CENTER) {
-            font.draw(sb, glyphLayout, x - glyphLayout.width / 2f, y + glyphLayout.height / 2f);
+            font.draw(sb, glyphLayout, snap(x - glyphLayout.width / 2f), snap(y + glyphLayout.height / 2f));
         } else if (alignment == Alignment.LEFT) {
-            font.draw(sb, glyphLayout, x, y + glyphLayout.height / 2f);
+            font.draw(sb, glyphLayout, snap(x), snap(y + glyphLayout.height / 2f));
         } else {
-            font.draw(sb, glyphLayout, x - w + 1, y + glyphLayout.height / 2f);
+            font.draw(sb, glyphLayout, snap(x - w + 1), snap(y + glyphLayout.height / 2f));
         }
     }
 

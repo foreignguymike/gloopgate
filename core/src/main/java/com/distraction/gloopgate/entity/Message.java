@@ -29,7 +29,7 @@ public class Message extends Entity {
         y = snap(Constants.HEIGHT / 2f - h / 2f + 1);
 
         BitmapFont font = context.getFont();
-        text = new TextEntity(font, texts[0], Constants.WIDTH / 2f, Constants.HEIGHT / 2f, TextEntity.Alignment.CENTER);
+        text = new TextEntity(font, texts[0], Constants.WIDTH / 2f, y + 6, TextEntity.Alignment.CENTER);
     }
 
     @Override
@@ -43,6 +43,7 @@ public class Message extends Entity {
                 text.setText(texts[index]);
             }
         }
+        text.y = y + 6;
     }
 
     @Override

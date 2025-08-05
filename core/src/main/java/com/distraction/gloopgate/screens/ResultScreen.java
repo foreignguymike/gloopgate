@@ -15,6 +15,9 @@ public class ResultScreen extends Screen {
 
     public static final float BAR_LENGTH = 40;
 
+    private final LevelData.Difficulty difficulty;
+    private final int score;
+
     private final RepeatingBackground slimeBg;
 
     private final MoveTarget titley;
@@ -29,6 +32,8 @@ public class ResultScreen extends Screen {
 
     public ResultScreen(Context context, LevelData.Difficulty difficulty, int score) {
         super(context);
+        this.difficulty = difficulty;
+        this.score = score;
 
         ignoreInput = true;
         in = new Transition(context, Transition.Type.CHECKERED_IN, 0.5f, () -> ignoreInput = false);
@@ -59,6 +64,8 @@ public class ResultScreen extends Screen {
         barPercentMax = score / 100f;
 
         context.audio.stopMusic();
+
+        if (!context.leaderboardsInitialized) context.fetchLeaderboard(success -> {});
     }
 
     private String getText(LevelData.Difficulty difficulty, int score) {
@@ -68,19 +75,19 @@ public class ResultScreen extends Screen {
             else if (score >= 95) text = "Amazing!";
             else if (score >= 90) text = "Great job";
             else if (score >= 80) text = "Okay.";
-            else text = "You good...?";
+            else text = "You okay...?";
         } else if (difficulty == LevelData.Difficulty.HARD) {
             if (score == 100) text = "PERFECT!";
             else if (score >= 92) text = "Amazing!";
             else if (score >= 84) text = "Great job";
             else if (score >= 76) text = "Okay.";
-            else text = "You good...?";
+            else text = "You okay...?";
         } else if (difficulty == LevelData.Difficulty.PRO) {
             if (score == 100) text = "PERFECT!";
             else if (score >= 90) text = "Amazing!";
             else if (score >= 80) text = "Great job";
             else if (score >= 70) text = "Okay.";
-            else text = "You good...?";
+            else text = "You okay...?";
         } else {
             if (score == 100) text = "ALIEN";
             else if (score >= 90) text = "Genius!";
@@ -96,6 +103,9 @@ public class ResultScreen extends Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             ignoreInput = true;
+            if (context.isHighscore(difficulty, score)) {
+                out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> context.sm.replace(new SubmitScreen(context, difficulty, score)));
+            }
             out.start();
         }
     }

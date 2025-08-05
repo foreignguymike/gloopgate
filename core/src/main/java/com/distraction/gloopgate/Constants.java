@@ -58,6 +58,9 @@ public class Constants {
     public static final Color RESULTS_BG = COLORS[30];
     public static final Color RESULTS_SLIME_BG = COLORS[31];
 
+    public static final Color SUBMIT_BG = COLORS[12];
+    public static final Color SUBMIT_SLIME_BG = COLORS[13];
+
     public static final Color LIGHT = COLORS[19];
     public static final Color DARK = COLORS[24];
     public static final Color RED = COLORS[26];
@@ -71,4 +74,21 @@ public class Constants {
     public static final Color GRASS = COLORS[12];
     public static final Color SKY = COLORS[18];
     public static final Color SHADOW = COLORS[4];
+
+    public static String APP_ID = "";
+    public static String API_KEY = "";
+    public static int LEADERBOARD1 = 0;
+    public static int LEADERBOARD2 = 0;
+    public static int LEADERBOARD3 = 0;
+    public static int LEADERBOARD4 = 0;
+
+    // not for you
+    static {
+        APP_ID = ApiConstants.APP_ID;
+        API_KEY = ApiConstants.API_KEY;
+        LEADERBOARD1 = ApiConstants.LEADERBOARD1;
+        LEADERBOARD2 = ApiConstants.LEADERBOARD2;
+        LEADERBOARD3 = ApiConstants.LEADERBOARD3;
+        LEADERBOARD4 = ApiConstants.LEADERBOARD4;
+    }
 }

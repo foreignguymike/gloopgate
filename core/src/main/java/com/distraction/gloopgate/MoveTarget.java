@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Interpolation;
 
 public class MoveTarget {
 
-    public final Interpolation interpolation = Interpolation.swing;
+    public Interpolation interpolation = Interpolation.swing;
 
     public float value;
 

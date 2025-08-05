@@ -164,3 +164,4 @@ Thumbs.db
 **/resource-config.json
 
 /blog/
+/core/src/main/java/com/distraction/gloopgate/ApiConstants.java
