@@ -65,7 +65,11 @@ public class ResultScreen extends Screen {
 
         context.audio.stopMusic();
 
-        if (!context.leaderboardsInitialized) context.fetchLeaderboard(success -> {});
+        if (!context.leaderboardsInitialized &&!context.leaderboardsRequesting) {
+            context.fetchLeaderboard(success -> {
+
+            });
+        }
     }
 
     private String getText(LevelData.Difficulty difficulty, int score) {

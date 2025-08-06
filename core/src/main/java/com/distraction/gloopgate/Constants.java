@@ -84,11 +84,11 @@ public class Constants {
 
     // not for you
     static {
-        APP_ID = ApiConstants.APP_ID;
-        API_KEY = ApiConstants.API_KEY;
-        LEADERBOARD1 = ApiConstants.LEADERBOARD1;
-        LEADERBOARD2 = ApiConstants.LEADERBOARD2;
-        LEADERBOARD3 = ApiConstants.LEADERBOARD3;
-        LEADERBOARD4 = ApiConstants.LEADERBOARD4;
+//        APP_ID = ApiConstants.APP_ID;
+//        API_KEY = ApiConstants.API_KEY;
+//        LEADERBOARD1 = ApiConstants.LEADERBOARD1;
+//        LEADERBOARD2 = ApiConstants.LEADERBOARD2;
+//        LEADERBOARD3 = ApiConstants.LEADERBOARD3;
+//        LEADERBOARD4 = ApiConstants.LEADERBOARD4;
     }
 }
