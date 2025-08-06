@@ -181,7 +181,7 @@ public class SubmitScreen extends Screen {
                 if (res.contains("true")) {
                     context.fetchLeaderboard(success -> {
                         exit();
-                        context.audio.playSound("submit");
+                        context.audio.playSound("select");
                     });
                 } else {
                     failed(null);
