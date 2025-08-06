@@ -24,8 +24,8 @@ public class AudioHandler {
         addSound("select", "sfx/select.wav");
         addSound("enter", "sfx/enter.wav");
         addSound("enter2", "sfx/enter.ogg");
-        addSound("tick", "sfx/click.ogg");
-        addSound("tick2", "sfx/shift.wav");
+        addSound("click", "sfx/click.ogg");
+        addSound("tick", "sfx/shift.wav");
         addSound("finish", "sfx/finish.wav");
     }
 

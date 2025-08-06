@@ -159,7 +159,7 @@ public class TitleScreen extends Screen {
         if (difficultySelection > 0) {
             difficultySelection--;
             pagex.setTarget(-Constants.WIDTH * difficultySelection, 0.3f);
-            context.audio.playSound("tick2");
+            context.audio.playSound("tick");
         }
     }
 
@@ -167,7 +167,7 @@ public class TitleScreen extends Screen {
         if (difficultySelection < difficulties.length - 1) {
             difficultySelection++;
             pagex.setTarget(-Constants.WIDTH * difficultySelection, 0.3f);
-            context.audio.playSound("tick2");
+            context.audio.playSound("tick");
         }
     }
 

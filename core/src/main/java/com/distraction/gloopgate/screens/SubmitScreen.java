@@ -135,12 +135,14 @@ public class SubmitScreen extends Screen {
                     if (context.name.length() < MAX_CHARS) {
                         context.name += letter.toUpperCase();
                         caretTime = 0;
+                        context.audio.playSound("tick");
                     }
                 }
                 if (keycode == BACKSPACE) {
                     if (!context.name.isEmpty()) {
                         context.name = context.name.substring(0, context.name.length() - 1);
                         caretTime = 0;
+                        context.audio.playSound("tick");
                     }
                 }
                 if (keycode == ENTER) {
@@ -155,6 +157,8 @@ public class SubmitScreen extends Screen {
                 return true;
             }
         });
+
+        context.audio.playSound("cheer", 0.6f);
     }
 
     private void exit() {
@@ -167,7 +171,7 @@ public class SubmitScreen extends Screen {
         if (context.name.isEmpty() || !context.leaderboardsInitialized) return;
         if (loading) return;
         loading = true;
-        context.audio.playSound("click");
+        context.audio.playSound("tick");
         context.submitScore(context.name, difficulty, context.score, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {

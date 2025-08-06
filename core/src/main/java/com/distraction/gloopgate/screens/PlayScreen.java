@@ -126,7 +126,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             if (state == State.GO) {
                 counter.count();
-                context.audio.playSound("tick");
+                context.audio.playSound("click");
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
