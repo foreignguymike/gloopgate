@@ -7,6 +7,7 @@ import static com.badlogic.gdx.Input.Keys.C;
 import static com.badlogic.gdx.Input.Keys.D;
 import static com.badlogic.gdx.Input.Keys.E;
 import static com.badlogic.gdx.Input.Keys.ENTER;
+import static com.badlogic.gdx.Input.Keys.ESCAPE;
 import static com.badlogic.gdx.Input.Keys.F;
 import static com.badlogic.gdx.Input.Keys.G;
 import static com.badlogic.gdx.Input.Keys.H;
@@ -16,23 +17,11 @@ import static com.badlogic.gdx.Input.Keys.K;
 import static com.badlogic.gdx.Input.Keys.L;
 import static com.badlogic.gdx.Input.Keys.M;
 import static com.badlogic.gdx.Input.Keys.N;
-import static com.badlogic.gdx.Input.Keys.NUM_0;
-import static com.badlogic.gdx.Input.Keys.NUM_1;
-import static com.badlogic.gdx.Input.Keys.NUM_2;
-import static com.badlogic.gdx.Input.Keys.NUM_3;
-import static com.badlogic.gdx.Input.Keys.NUM_4;
-import static com.badlogic.gdx.Input.Keys.NUM_5;
-import static com.badlogic.gdx.Input.Keys.NUM_6;
-import static com.badlogic.gdx.Input.Keys.NUM_7;
-import static com.badlogic.gdx.Input.Keys.NUM_8;
-import static com.badlogic.gdx.Input.Keys.NUM_9;
 import static com.badlogic.gdx.Input.Keys.O;
 import static com.badlogic.gdx.Input.Keys.P;
 import static com.badlogic.gdx.Input.Keys.Q;
 import static com.badlogic.gdx.Input.Keys.R;
 import static com.badlogic.gdx.Input.Keys.S;
-import static com.badlogic.gdx.Input.Keys.SHIFT_LEFT;
-import static com.badlogic.gdx.Input.Keys.SHIFT_RIGHT;
 import static com.badlogic.gdx.Input.Keys.SPACE;
 import static com.badlogic.gdx.Input.Keys.T;
 import static com.badlogic.gdx.Input.Keys.U;
@@ -43,7 +32,6 @@ import static com.badlogic.gdx.Input.Keys.Y;
 import static com.badlogic.gdx.Input.Keys.Z;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -158,12 +146,21 @@ public class SubmitScreen extends Screen {
                 if (keycode == ENTER) {
                     submitName();
                 }
+                if (keycode == ESCAPE) {
+                    exit();
+                }
                 if (context.name != null) {
                     nameText.setText(context.name);
                 }
                 return true;
             }
         });
+    }
+
+    private void exit() {
+        ignoreInput = true;
+        out.start();
+        Gdx.input.setInputProcessor(null);
     }
 
     private void submitName() {
@@ -179,9 +176,7 @@ public class SubmitScreen extends Screen {
                 // just doing a sus true check instead
                 if (res.contains("true")) {
                     context.fetchLeaderboard(success -> {
-                        ignoreInput = true;
-                        out.start();
-                        Gdx.input.setInputProcessor(null);
+                        exit();
                         context.audio.playSound("submit");
                     });
                 } else {

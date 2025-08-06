@@ -2,6 +2,7 @@ package com.distraction.gloopgate.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.distraction.gloopgate.Constants;
 import com.distraction.gloopgate.Context;
@@ -45,6 +46,9 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
     private int validSlimeCount;
     private int currentSlimesOnScreen;
 
+    private float time;
+    private final TextureRegion[] upButtons;
+
     public PlayScreen(Context context, LevelData.Difficulty difficulty, int level) {
         super(context);
 
@@ -66,7 +70,9 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
         bg = new GameBackground(context);
 
-        message = new Message(context, new String[]{"Day " + level, "Enter"});
+        message = new Message(context, new String[]{"Day " + level, "Press Enter"});
+
+        upButtons = context.getImage("upbutton").split(9, 12)[0];
 
         context.audio.playMusic("bg", 0.1f, true);
     }
@@ -131,6 +137,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
     @Override
     public void update(float dt) {
+        time += dt;
         in.update(dt);
         out.update(dt);
 
@@ -192,6 +199,11 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         counter.render(sb);
 
         if (message != null) message.render(sb);
+
+        if (difficulty == LevelData.Difficulty.NORMAL && level == 1 && message == null && counter.count == 0) {
+            int index = time % 1 < 0.5f ? 0 : 1;
+            sb.draw(upButtons[index], 10, 2);
+        }
 
         in.render(sb);
         out.render(sb);

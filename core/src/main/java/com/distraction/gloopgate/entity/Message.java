@@ -8,7 +8,7 @@ import com.distraction.gloopgate.Context;
 
 public class Message extends Entity {
 
-    private static final float INTERVAL = 3;
+    private static final float INTERVAL = 2;
 
     private final TextEntity text;
     private final String[] texts;
