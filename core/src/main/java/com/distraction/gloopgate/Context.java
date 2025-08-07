@@ -69,7 +69,8 @@ public class Context {
             if (Objects.equals(id, "0")) return Constants.LEADERBOARD1;
             else if (Objects.equals(id, "1")) return Constants.LEADERBOARD2;
             else if (Objects.equals(id, "2")) return Constants.LEADERBOARD3;
-            else return Constants.LEADERBOARD4;
+            else if (Objects.equals(id, "3")) return Constants.LEADERBOARD4;
+            else return Constants.LEADERBOARD5;
         });
         client.initialize(Constants.APP_ID, Constants.API_KEY);
 

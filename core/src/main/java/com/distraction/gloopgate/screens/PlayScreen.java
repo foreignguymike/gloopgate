@@ -106,6 +106,9 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
         } else if (difficulty == LevelData.Difficulty.WEIRD) {
             speed += MathUtils.random(0, 10);
             if (lane % 2 == 1) speed = -speed;
+        } else if (difficulty == LevelData.Difficulty.ALIEN) {
+            speed += MathUtils.random(0, 10);
+            if (lane % 2 == 1) speed = -speed;
         }
         slimes.get(lane).add(new Slime(context, type, y, speed));
         currentSlimesOnScreen++;
@@ -193,7 +196,8 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
             for (Slime slime : lane) slime.render(sb);
         }
 
-        bg.renderForeground(sb);
+        bg.renderRail(sb);
+        if (difficulty == LevelData.Difficulty.ALIEN) bg.renderCover(sb);
 
         valid.render(sb);
         counter.render(sb);

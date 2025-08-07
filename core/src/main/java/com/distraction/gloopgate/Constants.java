@@ -14,7 +14,7 @@ public class Constants {
 
     public static final boolean FULLSCREEN = false;
 
-    public static final String VERSION = "v1.9";
+    public static final String VERSION = "v1.10";
 
     // Endesga 32 https://lospec.com/palette-list/endesga-32
     public static final Color[] COLORS = new Color[]{
@@ -81,6 +81,7 @@ public class Constants {
     public static int LEADERBOARD2 = 0;
     public static int LEADERBOARD3 = 0;
     public static int LEADERBOARD4 = 0;
+    public static int LEADERBOARD5 = 0;
 
     // not for you
     static {
@@ -90,5 +91,6 @@ public class Constants {
 //        LEADERBOARD2 = ApiConstants.LEADERBOARD2;
 //        LEADERBOARD3 = ApiConstants.LEADERBOARD3;
 //        LEADERBOARD4 = ApiConstants.LEADERBOARD4;
+//        LEADERBOARD5 = ApiConstants.LEADERBOARD5;
     }
 }

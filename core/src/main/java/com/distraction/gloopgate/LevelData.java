@@ -12,7 +12,8 @@ public class LevelData {
         NORMAL("Normal"),
         HARD("Hard"),
         PRO("Pro"),
-        WEIRD("Weird")
+        WEIRD("Weird"),
+        ALIEN("Alien")
         ;
 
         public final String text;
@@ -180,6 +181,48 @@ public class LevelData {
                 slimeBias = new ArrayList<>();
                 biasAmount = 1;
                 speed = 30;
+                slimeCount = 60;
+            }
+        } else if (difficulty == Difficulty.WEIRD) {
+            if (level == 1) {
+                validType = Valid.Type.INVALID;
+                slimeTypes = Slime.Type.random(3);
+                slimeInterval = 0.4f;
+                slimeBias = slimeTypes;
+                biasAmount = 1;
+                speed = 25;
+                slimeCount = 30;
+            } else if (level == 2) {
+                validType = Valid.Type.INVALID;
+                slimeTypes = Slime.Type.random(3);
+                slimeInterval = 0.4f;
+                slimeBias = slimeTypes;
+                biasAmount = 1;
+                speed = 25;
+                slimeCount = 35;
+            } else if (level == 3) {
+                validType = Valid.Type.INVALID;
+                slimeTypes = Slime.Type.random(3);
+                slimeInterval = 0.4f;
+                slimeBias = new ArrayList<>();
+                biasAmount = 1;
+                speed = 30;
+                slimeCount = 40;
+            } else if (level == 4) {
+                validType = Valid.Type.INVALID;
+                slimeTypes = Slime.Type.random(3);
+                slimeInterval = 0.3f;
+                slimeBias = new ArrayList<>();
+                biasAmount = 1;
+                speed = 30;
+                slimeCount = 50;
+            } else {
+                validType = Valid.Type.INVALID;
+                slimeTypes = Slime.Type.random(3);
+                slimeInterval = 0.2f;
+                slimeBias = new ArrayList<>();
+                biasAmount = 1;
+                speed = 35;
                 slimeCount = 60;
             }
         } else {

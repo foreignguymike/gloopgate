@@ -92,11 +92,16 @@ public class ResultScreen extends Screen {
             else if (score >= 80) text = "Great job";
             else if (score >= 70) text = "Okay.";
             else text = "You okay...?";
-        } else {
-            if (score == 100) text = "ALIEN";
-            else if (score >= 90) text = "Genius!";
-            else if (score >= 70) text = "Nimble.";
+        } else if (difficulty == LevelData.Difficulty.WEIRD) {
+            if (score == 100) text = "Genius!";
+            else if (score >= 90) text = "Incredible!";
+            else if (score >= 70) text = "Quick.";
             else text = "Too hard...";
+        } else {
+            if (score == 100) text = "OVERLORD";
+            else if (score >= 90) text = "Invasion!";
+            else if (score >= 70) text = "Grunt.";
+            else text = "WEAK!";
         }
         return text;
     }
