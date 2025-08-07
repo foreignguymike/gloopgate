@@ -14,7 +14,7 @@ public class Constants {
 
     public static final boolean FULLSCREEN = false;
 
-    public static final String VERSION = "v1.10";
+    public static final String VERSION = "v1.11";
 
     // Endesga 32 https://lospec.com/palette-list/endesga-32
     public static final Color[] COLORS = new Color[]{
@@ -74,6 +74,10 @@ public class Constants {
     public static final Color GRASS = COLORS[12];
     public static final Color SKY = COLORS[18];
     public static final Color SHADOW = COLORS[4];
+
+    public static final Color MESSAGE_BLACK = COLORS[25];
+    public static final Color MESSAGE_VALID = COLORS[13];
+    public static final Color MESSAGE_INVALID = COLORS[7];
 
     public static String APP_ID = "";
     public static String API_KEY = "";

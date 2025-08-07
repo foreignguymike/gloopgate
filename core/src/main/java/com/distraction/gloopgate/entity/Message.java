@@ -1,5 +1,6 @@
 package com.distraction.gloopgate.entity;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,13 +13,21 @@ public class Message extends Entity {
 
     private final TextEntity text;
     private final String[] texts;
+    private final Color bgColor;
     private final TextureRegion pixel;
 
     private float time;
     private int index;
 
     public Message(Context context, String[] texts) {
+        this(context, texts, null);
+    }
+
+    public Message(Context context, String[] texts, Valid.Type type) {
         this.texts = texts;
+        if (type == null) bgColor = Constants.MESSAGE_BLACK;
+        else if (type == Valid.Type.VALID) bgColor = Constants.MESSAGE_VALID;
+        else bgColor = Constants.MESSAGE_INVALID;
 
         pixel = context.getPixel();
 
@@ -48,7 +57,7 @@ public class Message extends Entity {
 
     @Override
     public void render(SpriteBatch sb) {
-        sb.setColor(Constants.BLACK);
+        sb.setColor(bgColor);
         sb.draw(pixel, x, y, w, h);
         sb.setColor(1, 1, 1, 1);
         text.render(sb);

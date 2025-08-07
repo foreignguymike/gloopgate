@@ -70,7 +70,7 @@ public class PlayScreen extends Screen implements SlimeSpawner.SpawnListener {
 
         bg = new GameBackground(context);
 
-        message = new Message(context, new String[]{"Day " + level, "Press Enter"});
+        message = new Message(context, new String[]{"Day " + level + " / 5", "Press Enter"}, levelData.validType);
 
         upButtons = context.getImage("upbutton").split(9, 12)[0];
 
