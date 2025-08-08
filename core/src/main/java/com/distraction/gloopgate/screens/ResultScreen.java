@@ -101,7 +101,7 @@ public class ResultScreen extends Screen {
             if (score == 100) text = "OVERLORD";
             else if (score >= 90) text = "Invasion!";
             else if (score >= 70) text = "Grunt.";
-            else text = "WEAK!";
+            else text = "Crushed.";
         }
         return text;
     }
@@ -115,6 +115,10 @@ public class ResultScreen extends Screen {
             if (context.isHighscore(difficulty, score)) {
                 out = new Transition(context, Transition.Type.CHECKERED_OUT, 0.5f, () -> context.sm.replace(new SubmitScreen(context, difficulty, score)));
             }
+            out.start();
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            ignoreInput = true;
             out.start();
         }
     }
